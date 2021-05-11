@@ -1,7 +1,12 @@
 import React from "react";
+import "./index.css";
 
 function App() {
-  return <div>React App</div>;
+  return (
+    <div className="container">
+      <div>React App</div>
+    </div>
+  );
 }
 
 export default App;
