@@ -12,9 +12,13 @@ export const NumberPicker = ({ min = 0, max, value, onChange, ...props }) => {
   const handleChange = (e) => {
     const value = e.target.value;
 
-    if (value < min || value > max) return;
+    if (+value < min || +value > max) return;
 
-    onChange(value);
+    onChange(+value);
+  };
+
+  const handleBlur = (e) => {
+    e.target.value = +e.target.value;
   };
 
   const handleClick = (e) => {
@@ -35,7 +39,7 @@ export const NumberPicker = ({ min = 0, max, value, onChange, ...props }) => {
           step={1}
           value={value}
           onClick={handleClick}
-          onBlur={() => {}}
+          onBlur={handleBlur}
           onChange={handleChange}
           {...props}
         />
