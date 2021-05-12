@@ -53,7 +53,7 @@ const Room = ({ people, room, distribution, distributed, onChange }) => {
           key={type}
           type={type}
           value={distribution[type]}
-          min={min}
+          min={0}
           max={getMax(type)}
           onChange={onChange(type)}
         />
@@ -81,6 +81,20 @@ const GuestRoomPicker = ({ people = 0, rooms = [], handleDistribution }) => {
     ]);
   };
 
+  const getDistributed = (i) =>
+    distribution.reduce((count, d, j) => {
+      return (
+        count +
+        (i === j
+          ? 0
+          : Math.max(
+              Object.values(d).reduce((c, value) => c + value, 0),
+              rooms[j].min
+            ))
+        //even if that room not distributed, it should still takes that room's min people
+      );
+    }, 0);
+
   useEffectSkipMount(() => {
     handleDistribution(distribution);
   }, [distribution]);
@@ -96,14 +110,7 @@ const GuestRoomPicker = ({ people = 0, rooms = [], handleDistribution }) => {
             people={people}
             room={room}
             distribution={distribution[i]}
-            distributed={distribution.reduce((count, d, j) => {
-              return (
-                count +
-                (i === j
-                  ? 0
-                  : Object.values(d).reduce((c, value) => c + value, 0))
-              );
-            }, 0)}
+            distributed={getDistributed(i)}
             onChange={handleChange(i)}
           />
           {i < rooms.length - 1 && <hr className="solid" styleName="divider" />}
