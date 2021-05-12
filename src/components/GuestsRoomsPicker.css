@@ -2,32 +2,40 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 28px;
+  margin-bottom: 16px;
 }
 
 .room-description {
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  margin: 16px 0px;
+  margin-bottom: 16px;
 }
 
 .guest-number-picker {
   display: flex;
+  margin-bottom: 16px;
 }
 
 .room-guest {
   flex: 1;
 }
 
-.room-guest-type {
+.room-guest-description {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
 }
 
-.room-guest-description {
+.room-guest-age {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
   color: #8c8c8c;
+}
+
+.divider {
+  position: static;
+  background: rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
 }
