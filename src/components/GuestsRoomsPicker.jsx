@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PropTypes from "prop-types";
+import { useEffectSkipMount } from "../hooks";
 import { NumberPicker } from "./";
 
 import "./GuestsRoomsPicker.css";
@@ -80,7 +81,7 @@ const GuestRoomPicker = ({ people = 0, rooms = [], handleDistribution }) => {
     ]);
   };
 
-  useEffect(() => {
+  useEffectSkipMount(() => {
     handleDistribution(distribution);
   }, [distribution]);
 
