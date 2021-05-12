@@ -3,6 +3,7 @@
   height: 380px;
   background: white;
   padding: 16px;
+  user-select: none;
 }
 
 .title {
