@@ -4,6 +4,7 @@
   background: white;
   padding: 16px;
   user-select: none;
+  overflow: auto;
 }
 
 .title {
