@@ -48,9 +48,9 @@ const Room = ({ room, distribution, onChange }) => {
   return (
     <>
       <div styleName="room-description">房間：{max} 人</div>
-
       {Object.values(GUEST_TYPE).map((type) => (
         <GuestNumberPicker
+          key={type}
           type={type}
           value={distribution[type]}
           min={min}
