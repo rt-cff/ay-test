@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { NumberPicker } from "./";
 
@@ -18,36 +19,86 @@ const GUUEST_AGE = {
   [GUEST_TYPE.CHILD]: "0",
 };
 
-const GuestNumberPicker = ({ type }) => {
+const GuestNumberPicker = ({ type, ...props }) => {
   return (
     <div styleName="guest-number-picker">
       <div styleName="room-guest">
         <div styleName="room-guest-description">{GUEST_DESCRIPTION[type]}</div>
         <div styleName="room-guest-age">年齡 {GUUEST_AGE[type]}+</div>
       </div>
-      <NumberPicker />
+      <NumberPicker {...props} />
     </div>
   );
 };
 
-const Room = () => {
+const Room = ({ room, distribution, onChange }) => {
+  const { min, max } = room;
+
+  const getRemainingCount = (type) => {
+    return (
+      max -
+      Object.entries(distribution).reduce(
+        (c, [key, value]) => c + (type === key ? 0 : value),
+        0
+      )
+    );
+  };
+
   return (
     <>
-      <div styleName="room-description">房間：2 人</div>
-      <GuestNumberPicker type={GUEST_TYPE.ADULT} />
-      <GuestNumberPicker type={GUEST_TYPE.CHILD} />
+      <div styleName="room-description">房間：{max} 人</div>
+
+      {Object.values(GUEST_TYPE).map((type) => (
+        <GuestNumberPicker
+          type={type}
+          value={distribution[type]}
+          min={min}
+          max={getRemainingCount(type)}
+          onChange={onChange(type)}
+        />
+      ))}
     </>
   );
 };
 
-const GuestRoomPicker = ({ people, rooms, handleDistribution }) => {
-  //TODO: implement Number Picker
+const GuestRoomPicker = ({ people = 0, rooms = [], handleDistribution }) => {
+  const [distribution, setDistribution] = useState(
+    rooms.map(() => ({
+      [GUEST_TYPE.ADULT]: 0,
+      [GUEST_TYPE.CHILD]: 0,
+    }))
+  );
+
+  const handleChange = (i) => (type) => (newValue) => {
+    setDistribution((dist) => [
+      ...dist.slice(0, i),
+      {
+        ...dist[i],
+        [type]: newValue,
+      },
+      ...dist.slice(i + 1),
+    ]);
+  };
+
+  useEffect(() => {
+    handleDistribution(distribution);
+  }, [distribution]);
+
   return (
-    <div style={{ width: 380, height: 380, background: "white", padding: 16 }}>
-      <div styleName="title">住客人數：3 人 / 2 房</div>
-      <Room />
-      <hr class="solid" styleName="divider" />
-      <Room />
+    <div styleName="guest-room-picker-container">
+      <div styleName="title">
+        住客人數：{people} 人 / {rooms.length} 房
+      </div>
+      {rooms.map((room, i) => (
+        <div key={i}>
+          <Room
+            room={room}
+            distribution={distribution[i]}
+            onChange={handleChange(i)}
+          />
+          {i < rooms.length - 1 && <hr className="solid" styleName="divider" />}
+        </div>
+      ))}
     </div>
   );
 };

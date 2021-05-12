@@ -1,3 +1,10 @@
+.guest-room-picker-container {
+  width: 380px;
+  height: 380px;
+  background: white;
+  padding: 16px;
+}
+
 .title {
   font-weight: 700;
   font-size: 20px;
