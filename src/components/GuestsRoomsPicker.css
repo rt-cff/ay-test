@@ -28,13 +28,13 @@
   flex: 1;
 }
 
-.room-guest-description {
+.room-guest-text {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
 }
 
-.room-guest-age {
+.room-guest-description {
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;

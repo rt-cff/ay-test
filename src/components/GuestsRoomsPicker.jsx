@@ -10,22 +10,22 @@ export const GUEST_TYPE = {
   CHILD: "child",
 };
 
-const GUEST_DESCRIPTION = {
+const GUEST_TEXT = {
   [GUEST_TYPE.ADULT]: "大人",
   [GUEST_TYPE.CHILD]: "小孩",
 };
 
-const GUUEST_AGE = {
-  [GUEST_TYPE.ADULT]: "20",
-  [GUEST_TYPE.CHILD]: "0",
+const GUEST_DESCRIPTION = {
+  [GUEST_TYPE.ADULT]: "年齡 20+",
+  [GUEST_TYPE.CHILD]: "年齡 0+",
 };
 
 const GuestNumberPicker = ({ type, ...props }) => {
   return (
     <div styleName="guest-number-picker">
       <div styleName="room-guest">
+        <div styleName="room-guest-text">{GUEST_TEXT[type]}</div>
         <div styleName="room-guest-description">{GUEST_DESCRIPTION[type]}</div>
-        <div styleName="room-guest-age">年齡 {GUUEST_AGE[type]}+</div>
       </div>
       <NumberPicker {...props} />
     </div>
