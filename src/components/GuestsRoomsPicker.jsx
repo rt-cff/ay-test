@@ -32,12 +32,12 @@ const GuestNumberPicker = ({ type, ...props }) => {
   );
 };
 
-const Room = ({ room, distribution, onChange }) => {
+const Room = ({ people, room, distribution, distributed, onChange }) => {
   const { min, max } = room;
 
-  const getRemainingCount = (type) => {
+  const getMax = (type) => {
     return (
-      max -
+      Math.min(max, people - distributed) -
       Object.entries(distribution).reduce(
         (c, [key, value]) => c + (type === key ? 0 : value),
         0
@@ -54,7 +54,7 @@ const Room = ({ room, distribution, onChange }) => {
           type={type}
           value={distribution[type]}
           min={min}
-          max={getRemainingCount(type)}
+          max={getMax(type)}
           onChange={onChange(type)}
         />
       ))}
@@ -93,8 +93,17 @@ const GuestRoomPicker = ({ people = 0, rooms = [], handleDistribution }) => {
       {rooms.map((room, i) => (
         <div key={i}>
           <Room
+            people={people}
             room={room}
             distribution={distribution[i]}
+            distributed={distribution.reduce((count, d, j) => {
+              return (
+                count +
+                (i === j
+                  ? 0
+                  : Object.values(d).reduce((c, value) => c + value, 0))
+              );
+            }, 0)}
             onChange={handleChange(i)}
           />
           {i < rooms.length - 1 && <hr className="solid" styleName="divider" />}
