@@ -5,7 +5,7 @@ import "./index.css";
 
 function App() {
   return (
-    <div className="container">
+    <div styleName="container">
       <GuestRoomPicker />
     </div>
   );
